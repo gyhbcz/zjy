@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CogView3自定义绘图</title>
+<style>
+textarea{width:100%;min-height:120px}
+.wrap{max-width:950px;margin:30px auto;padding:0 15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2>AI在线生图 | 正负面全自定义</h2>
+<form method="post">
+    <p>选择画风：
+    <select name="style">
+        {% for s in style_list %}
+        <option>{{s}}</option>
+        {% endfor %}
+    </select>
+    &nbsp;&nbsp;
+    图片比例：
+    <select name="size">
+        {% for s in size_list %}
+        <option>{{s}}</option>
+        {% endfor %}
+    </select>
+    </p>
+
+    <p>✅正向提示词：</p>
+    <textarea name="prompt">long pink hair, ahoge, heterochromia, blue left eye, orange right eye, small cute fang, purple halo, sitting elegantly on windowsill, legs crossed, gentle smile, warm sunlight, cinematic color</textarea>
+
+    <p>❌负面提示词（可自行修改）：</p>
+    <textarea name="neg_prompt">worst quality, low quality, blurry, deformed, bad anatomy, extra fingers, missing fingers, text, watermark, signature, ugly</textarea>
+
+    <br><button type="submit" style="padding:6px 22px;font-size:16px">一键生成图片</button>
+</form>
+
+{% if img %}
+<hr>
+<h3>生成预览</h3>
+<img src="{{img}}" style="max-width:100%">
+<br><br>
+<a href="/download"><button>下载原图</button></a>
+{% endif %}
+</div>
+</body>
+</html>
