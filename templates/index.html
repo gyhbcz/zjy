@@ -39,7 +39,8 @@ textarea{width:100%;min-height:120px}
 {% if img %}
 <hr>
 <h3>生成预览</h3>
-<img src="{{img}}" style="max-width:100%">
+<!-- 从static路由加载图片，修复不显示 -->
+<img src="/static/{{img}}" style="max-width:100%">
 <br><br>
 <a href="/download"><button>下载原图</button></a>
 {% endif %}
