@@ -2,24 +2,50 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>CogView3自定义绘图</title>
+<title>CogView3绘图 | 自定义保存/删除画风</title>
 <style>
 textarea{width:100%;min-height:120px}
 .wrap{max-width:950px;margin:30px auto;padding:0 15px}
+.box{border:1px solid #ccc;padding:12px;margin:10px 0;border-radius:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h2>AI在线生图 | 正负面全自定义</h2>
+<h2>AI在线生图 | 保存&删除画风模板</h2>
+
+<!-- 保存画风 -->
+<div class="box">
+    <h4>💾新增保存画风</h4>
+    <form method="post">
+        <p>画风名称：<input type="text" name="save_style_name" placeholder="例：厚涂油画"></p>
+        <p>画风关键词：</p>
+        <textarea name="save_style_text" placeholder="填写画风tag"></textarea>
+        <button type="submit">保存</button>
+    </form>
+</div>
+
+<!-- 删除画风 -->
+<div class="box">
+    <h4>🗑️删除已有画风</h4>
+    <form method="post">
+        <select name="del_style">
+            {% for s in style_list %}
+            <option>{{s}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" style="color:red">删除选中画风</button>
+    </form>
+</div>
+
+<!-- 生图区域 -->
 <form method="post">
-    <p>选择画风：
+    <p>选用画风：
     <select name="style">
         {% for s in style_list %}
         <option>{{s}}</option>
         {% endfor %}
     </select>
-    &nbsp;&nbsp;
-    图片比例：
+    &nbsp;&nbsp;画布比例：
     <select name="size">
         {% for s in size_list %}
         <option>{{s}}</option>
@@ -27,11 +53,11 @@ textarea{width:100%;min-height:120px}
     </select>
     </p>
 
-    <p>✅正向提示词：</p>
+    <p>✅正向提示词(角色/场景描述)：</p>
     <textarea name="prompt">long pink hair, ahoge, heterochromia, blue left eye, orange right eye, small cute fang, purple halo, sitting elegantly on windowsill, legs crossed, gentle smile, warm sunlight, cinematic color</textarea>
 
-    <p>❌负面提示词（可自行修改）：</p>
-    <textarea name="neg_prompt">worst quality, low quality, blurry, deformed, bad anatomy, extra fingers, missing fingers, text, watermark, signature, ugly</textarea>
+    <p>❌负面提示词(已优化完整版，可手动增减)：</p>
+    <textarea name="neg_prompt">{{default_neg}}</textarea>
 
     <br><button type="submit" style="padding:6px 22px;font-size:16px">一键生成图片</button>
 </form>
@@ -39,8 +65,7 @@ textarea{width:100%;min-height:120px}
 {% if img %}
 <hr>
 <h3>生成预览</h3>
-<!-- 从static路由加载图片，修复不显示 -->
-<img src="/static/{{img}}" style="max-width:100%">
+<img src="/static/{{img}}" style="max-width:100%;">
 <br><br>
 <a href="/download"><button>下载原图</button></a>
 {% endif %}
